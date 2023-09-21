@@ -1,9 +1,10 @@
 import ListItem from "../listItem/ListItem";
 function ViewTodos(props) {
-    const {todos, deleteTodo, toggleComplete, editTodo} = props;
+    const {todos, filteredTodos, deleteTodo, toggleComplete, editTodo} = props;
+    const todoList = filteredTodos.length ? filteredTodos : todos
     return (
         <ul className="list-group my-4">
-            {todos.map((todo) =>  <ListItem 
+            {todoList.map((todo) =>  <ListItem 
                 key={todo.id}  
                 todo={todo} 
                 deleteTodo={deleteTodo}

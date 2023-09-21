@@ -1,5 +1,3 @@
-
-
 function EditForm(props) {
     const {title, changeTitleHandler, updateTodo} = props
     return (
