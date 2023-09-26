@@ -2,8 +2,8 @@ import Wrapped from "../wrapped"
 import Thumbnail from "../thumbnail"
 
 function Product(props) {
-    const {product} = props
-    const {title, price, rating, brand, category, thumbnail, images} = product
+    const {product, addToCart, showProduct} = props
+    const {id, title, price, rating, brand, category, thumbnail, images} = product
     return (
         <div className="card">
             <div className="card-header">
@@ -20,12 +20,18 @@ function Product(props) {
                 <Wrapped classes={["row"]}>
                     {images.map((image) => {
                         return (
-                            <Wrapped classes={["col-lg-4", "col-md-6", "mb-4"]} key={crypto.randomUUID()}> 
+                            <Wrapped classes={["col-lg-4", "col-6", "mb-4"]} key={crypto.randomUUID()}> 
                                 <Thumbnail image={image} classes={["img-thumbnail"]} />
                             </Wrapped>   
                         )
                     } )}
                 </Wrapped>
+            </div>
+            <div className="card-footer">
+                <button type="button" className="btn btn-success" onClick={() => addToCart(id)}>add to cart</button>
+                <button type="button" className="btn btn-warning" onClick={() => showProduct(id)}>
+                    show more
+                </button>
             </div>
         </div>
     )
