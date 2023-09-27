@@ -1,13 +1,12 @@
 import { useState } from "react"
 
 function Modal(props){
-    const {title, children, closeModal} = props
-    const [classes, setClasses] =useState(["modal", "fade"])
-    setTimeout(() => {
-        setClasses([...classes, "show"])
-    }, 300)
+    const {display, title, children, closeModal} = props
+    const [classes, setClasses] = useState (["modal", "fade"])
+    if (display === "block") setTimeout(() => {setClasses([...classes, "show"]) }, 300)
+    
     return(
-    <div className={classes.join(" ")} tabindex="-1" style={{display: "block"}}>
+    <div className={classes.join(" ")} style={{display}}>
         <div className="modal-dialog">
             <div className="modal-content">
                 <div className="modal-header">
