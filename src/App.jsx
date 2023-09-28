@@ -25,7 +25,7 @@ function App() {
   function initCartProducts(){
     if (localStorage.hasOwnProperty('products')){
         return JSON.parse(localStorage.getItem('products'));
-    }
+    } 
     return []
   }
   useEffect(() => {
@@ -37,11 +37,6 @@ function App() {
       setPaginationArray(data.products.slice(0, prePage))
     })();
     }, 1000)
-
-    if(localStorage.hasOwnProperty('products')) {
-      setCartProducts(JSON.parse(localStorage.getItem('products')))
-      console.log(cartProducts)
-    }
   }, [])
 
   useEffect(() => {
@@ -61,7 +56,7 @@ function App() {
 
   function deleteProductsFromCart(id) {
     if(confirm('Are you sure you want to delete this product?')){
-        setCartProducts(cartProducts.filter((product) => product.id !== id))
+      setCartProducts(cartProducts.filter((product) => product.id !== id))
     }
   }
 
