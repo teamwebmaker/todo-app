@@ -6,6 +6,7 @@ import './App.css'
 import HomePage from './pages/home/HomePage'
 import TodoIndex from './pages/todos/TodoIndex'
 import TodoCreate from './pages/todos/TodoCreate'
+import TodoShow from './pages/todos/TodoShow'
 
 const router = createBrowserRouter ([
   {
@@ -19,12 +20,16 @@ const router = createBrowserRouter ([
   {
     path: '/todos/create',
     element: <TodoCreate/>
+  },
+  {
+    path: '/todos/:id',
+    element: <TodoShow/>
   }
 ])
 
 function App() {
     return (
-      <RouterProvider router={router}/>
+      <RouterProvider router={router} />
     )
 }
 

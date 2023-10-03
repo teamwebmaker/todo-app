@@ -2,8 +2,10 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import TodoCreateForm from "../../components/todoCreate"
 import Navigation from "../../layouts/Navigation"
+import Alert from "../../components/alert";
 function TodoCreate () {
     const [todos, setTodos] = useState(initTodos())
+    const [alertProps, setAlertProps] = useState(null)
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -36,9 +38,13 @@ function TodoCreate () {
             todoTitle: '',
             todoStatus: 'low'
         })
+        setAlertProps({
+            status: "alert-success",
+            message: "Todo created successfully"
+        })
         setTimeout(() => {
             navigate('/todos')
-        }, 0)
+        }, 3000)
     }
 
     function todoFromHandle(e){
@@ -49,10 +55,13 @@ function TodoCreate () {
     }
     return (
         <section className="container-fluid">
-            <div className="container">
+            <div className="container my-4">
                 <Navigation />
             </div>
             <div className="container">
+                {alertProps ? <Alert {...alertProps}>
+                    {alertProps.message} 
+                </Alert> : null}
                 <div className="row">
                     <div className="col-md-6">
                         <TodoCreateForm formData={todoFormData} 
