@@ -11,16 +11,22 @@ function TodoShow () {
     }
     const {id} = useParams()
     const todo = todos.find((item) => item.id === id)
+    const statusSwitcher = {
+        low: "bg-info",
+        middle: "bg-warning",
+        high: "bg-danger",
+    }
+    const cardClasses = ["card", statusSwitcher[todo.status]]
     return (
         <section className="container-fluid">
             <div className="container">
                 <div className="row justify-content-center">
                     <div className="col-6">
-                    <div className="card">
-                        <div className="card-body">
-                            <h5 className="card-title">{todo.title}</h5>
+                        <div className={cardClasses.join(" ")}>
+                            <div className="card-header">
+                                <h2 className="card-title">{todo.title}</h2>
+                            </div>
                         </div>
-                    </div>
                     </div>
                 </div>
             </div>

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
-function TodoEdit(props){
-    const {todo} = props
+function TodoEditForm(props){
+    const {id, setAlertProps} = props
     const [todos, setTodos] = useState(initTodos())
+    const todo = todos.find((todo) => todo.id === id)
     const [todoFormData, setTodoFromData] = useState({
         todoTitle: todo.title,
         todoStatus: todo.status
@@ -10,6 +11,7 @@ function TodoEdit(props){
     useEffect(() => {
         localStorage.setItem('todos', JSON.stringify(todos))
     }, [todos])
+
 
     function initTodos(){
         if(localStorage.hasOwnProperty('todos')){
@@ -28,19 +30,23 @@ function TodoEdit(props){
     function updateTodo(e) {
         e.preventDefault()
         const updateTodo = {
-            id: todo.id,
-            title: todo.title,
+            id,
+            title: todoFormData.todoTitle,
             completed: false,
-            status: todo.status,
+            status: todoFormData.todoStatus,
             action: 'waiting'
         }
-        setTodos(todo.map((todo) => todo.id === updateTodo.id ? updateTodo : todo))
+        setTodos(todos.map((todo) => todo.id === updateTodo.id ? updateTodo : todo))
+        setTimeout(() => {
+            setAlertProps(null)
+        }, 1500)
+        setAlertProps({status: "alert-success", message: "todo updated successfully"})
     }   
 
     return (
         <form onSubmit={updateTodo}>
         <div className="mb-3">
-            <input type="text" className="form-control" value={formData.todoTitle} name="todoTitle" onChange={todoFromHandle}/>
+            <input type="text" className="form-control" value={todoFormData.todoTitle} name="todoTitle" onChange={todoFromHandle}/>
         </div>
         <div className="row">
             <div className="col-md-6">
@@ -49,27 +55,27 @@ function TodoEdit(props){
                         id="low"  
                         value="low" 
                         onChange={todoFromHandle}
-                        checked={todo.status === "low" ? true : false}/>
+                        checked={todoFormData.todoStatus === "low" ? true : false}/>
                     <label className="btn btn-outline-primary" htmlFor="low">Low</label>
 
                     <input type="radio" className="btn-check" name="todoStatus" 
                             id="middle" 
                             value="middle" 
                             onChange={todoFromHandle}
-                            checked={todo.status === "middle" ? true : false}/>
+                            checked={todoFormData.todoStatus === "middle" ? true : false}/>
                     <label className="btn btn-outline-primary" htmlFor="middle">Middle</label>
 
                     <input type="radio" className="btn-check" name="todoStatus" 
                     id="high" 
                     value="high" 
                     onChange={todoFromHandle}
-                    checked={todo.status === "high" ? true : false}/>
+                    checked={todoFormData.todoStatus === "high" ? true : false}/>
                     <label className="btn btn-outline-primary" htmlFor="high">High</label>
                 </div>
             </div>
         </div>
-        <button type="submit" className="btn btn-primary">Edit Todo</button>
+        <button type="submit" className="btn btn-primary">Update Todo</button>
     </form>
     )
 }
-export default TodoEdit
+export default TodoEditForm

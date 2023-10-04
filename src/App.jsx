@@ -7,6 +7,7 @@ import HomePage from './pages/home/HomePage'
 import TodoIndex from './pages/todos/TodoIndex'
 import TodoCreate from './pages/todos/TodoCreate'
 import TodoShow from './pages/todos/TodoShow'
+import TodoEdit from './pages/todos/TodoEdit'
 
 const router = createBrowserRouter ([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter ([
   {
     path: '/todos/:id',
     element: <TodoShow/>
+  },
+  {
+    path: '/todos/:id/edit',
+    element: <TodoEdit/>
   }
 ])
 

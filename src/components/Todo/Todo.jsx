@@ -19,9 +19,9 @@ function Todo(props){
             </div>
             <div className="card-body">
             <div className="btn-group" role="group" aria-label="Basic mixed styles example">
-                <button type="button" className="btn btn-danger" onClick={() => navigate(deleteUrl)}>Show</button>
+                <button type="button" className="btn btn-success" onClick={() => navigate(deleteUrl)}>Show</button>
                 <button type="button" className="btn btn-warning" onClick={() => navigate(editUrl)}>Edit</button>
-                <button type="button" className="btn btn-success" onClick={() => destroyTodo(id)}>Delete</button>
+                <button type="button" className="btn btn-danger" onClick={() => destroyTodo(id)}>Delete</button>
             </div>
             </div>
         </div>
