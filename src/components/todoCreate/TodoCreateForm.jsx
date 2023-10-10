@@ -1,8 +1,14 @@
+import { useState } from "react"
+
 function TodoCreateForm(props) {
     const {formData, todoFromHandle, storeTodo} = props
-
+    const [disabled, setDisabled] = useState(false)
+    function modifyStoreTodo (e) {
+        storeTodo(e)
+        setDisabled(true)
+    }
     return (
-            <form onSubmit={storeTodo}>
+            <form onSubmit={modifyStoreTodo}>
                 <div className="mb-3">
                     <input type="text" className="form-control" value={formData.todoTitle} name="todoTitle" onChange={todoFromHandle}/>
                 </div>
@@ -20,7 +26,7 @@ function TodoCreateForm(props) {
                         </div>
                     </div>
                 </div>
-                <button type="submit" className="btn btn-primary">Store Todo</button>
+                <button type="submit" className="btn btn-primary" disabled={disabled}>Store Todo</button>
             </form>
     )
 }

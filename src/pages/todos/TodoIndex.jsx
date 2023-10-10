@@ -4,6 +4,8 @@ import Navigation from "../../layouts/Navigation"
 import Page from "../../components/page"
 function TodoIndex (props) { 
     const prePage = 6
+    const [status, setStatus] = useState("all")
+    const [action, setAction] = useState("all")
     const [todos, setTodos] = useState(initTodos())
     const [filteredTodos, setFilteredTodos] = useState([])
     const [dysplayTodoList, setDysplayTodoList] = useState(initTodos())
@@ -36,62 +38,58 @@ function TodoIndex (props) {
         }
     }
     function filterTodos(e){
-        let filtered = []
+        let filtered = todos
+        setStatus(e.target.value)
+        if(action !== "all"){
+            filtered = filtered.filter((todo) => todo.completed === !!Number(action))
+        }
         switch (e.target.value){
             case 'low':
-                if (filteredTodos.length) filtered = filteredTodos.filter((todo) => todo.status === 'low')
-                else filtered =  todos.filter((todo) => todo.status === 'low')
-                setFilteredTodos(filtered)
+                filtered = filtered.filter((todo) => todo.status === 'low')
                 setDysplayTodoList(filtered)
                 setRenderTodoList(filtered.slice(0, prePage))
                 generateNumbersArray(1, Math.ceil(filtered.length / prePage))
                 setPages(generateNumbersArray(1, Math.ceil(filtered.length / prePage)))
             break;
             case 'middle':
-                if (filteredTodos.length) filtered = filteredTodos.filter((todo) => todo.status === 'middle')
-                else filtered =  todos.filter((todo) => todo.status === 'middle')
-                setFilteredTodos(filtered)
+                filtered = filtered.filter((todo) => todo.status === 'middle')
                 setDysplayTodoList(filtered)
                 setRenderTodoList(filtered.slice(0, prePage))
                 setPages(generateNumbersArray(1, Math.ceil(filtered.length / prePage)))
             break;
             case 'high':
-                if (filteredTodos.length) filtered = filteredTodos.filter((todo) => todo.status === 'high')
-                else filtered =  todos.filter((todo) => todo.status === 'high')
-                setFilteredTodos(filtered)
+                filtered = filtered.filter((todo) => todo.status === 'high')
                 setDysplayTodoList(filtered)
                 setRenderTodoList(filtered.slice(0, prePage))
                 setPages(generateNumbersArray(1, Math.ceil(filtered.length / prePage)))
             break;
             default:
-                setFilteredTodos([])
                 setDysplayTodoList(todos)
                 setRenderTodoList(todos.slice(0, prePage))
                 setPages(generateNumbersArray(1, Math.ceil(todos.length / prePage)))
         }
     }
     function filterByCompleted(e){
-        let filtered = []
+        let filtered = todos
+        setAction(e.target.value)
+        if(status !== "all"){
+            filtered = filtered.filter((todo) => todo.status === status)
+        }
         switch (e.target.value){
-            case 'completed':
-                if (filteredTodos.length) filtered = filteredTodos.filter((todo) => todo.completed)
-                else filtered =  todos.filter((todo) => todo.completed)
-                setFilteredTodos(filtered)
+            case '1':
+                filtered = filtered.filter((todo) => todo.completed)
                 setDysplayTodoList(filtered)
                 setRenderTodoList(filtered.slice(0, prePage))
                 generateNumbersArray(1, Math.ceil(filtered.length / prePage))
                 setPages(generateNumbersArray(1, Math.ceil(filtered.length / prePage)))
             break;
-            case 'running':
-                if (filteredTodos.length) filtered = filteredTodos.filter((todo) => !todo.completed)
-                else filtered =  todos.filter((todo) => !todo.completed)
-                setFilteredTodos(filtered)
+            case '0':
+                filtered = filtered.filter((todo) => !todo.completed)
                 setDysplayTodoList(filtered)
                 setRenderTodoList(filtered.slice(0, prePage))
                 setPages(generateNumbersArray(1, Math.ceil(filtered.length / prePage)))
             break;
             default:
-                setFilteredTodos([])
                 setDysplayTodoList(todos)
                 setRenderTodoList(todos.slice(0, prePage))
                 setPages(generateNumbersArray(1, Math.ceil(todos.length / prePage)))
@@ -121,7 +119,7 @@ function TodoIndex (props) {
                 <Navigation />
             </div>
             <div className="container my-4">
-                <select className="form-select" onChange={filterTodos}>
+                <select className="form-select" defaultValue={status} onChange={filterTodos}>
                     <option value="all">All Status</option>
                     <option value="low">Low</option>
                     <option value="middle">Middle</option>
@@ -129,10 +127,10 @@ function TodoIndex (props) {
                 </select>
             </div>
             <div className="container my-4">
-                <select className="form-select" onChange={filterByCompleted}>
+                <select className="form-select" defaultValue={action} onChange={filterByCompleted}>
                     <option value="all">All</option>
-                    <option value="completed">Completed</option>
-                    <option value="running">Running</option>
+                    <option value="1">Completed</option>
+                    <option value="0">Running</option>
                 </select>
             </div>
             <div className="container">
@@ -145,7 +143,7 @@ function TodoIndex (props) {
                 </div>
             </div>
             <div className="container">
-                <ul className="pagination">
+                <ul className="pagination gap-2">
                     {pages.map((page) => <Page page={page} currentPage={currentPage} paginate={paginate} key={crypto.randomUUID()}/>)}
                 </ul>
             </div>
